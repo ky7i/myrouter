@@ -7,8 +7,8 @@ import (
 
 func TestMatchChildMatched(t *testing.T) {
 	word := ""
-	handler1 := func(w http.ResponseWriter, r *http.Request) { word = "handler1" }
-	handler2 := func(w http.ResponseWriter, r *http.Request) { word = "handler2" }
+	handler1 := func(_ http.ResponseWriter, _ *http.Request) { word = "handler1" }
+	handler2 := func(_ http.ResponseWriter, _ *http.Request) { word = "handler2" }
 
 	routesList := [][]Route{{
 		{Path: "/test1", Handler: handler1},
@@ -34,11 +34,11 @@ func TestMatchChildMatched(t *testing.T) {
 		for _, route := range routesList[i] {
 			tree.Insert(route.Path, route)
 		}
-		path := paramList[i]
-		child := tree.MatchChild(path)
+		part := paramList[i]
+		child := tree.MatchChild(part)
 		// TODO: wildcard check
-		if child == nil || child.Route.Path != "/"+paramList[i] {
-			t.Errorf("Path: %q got, want Path: '/%q'", child.Route.Path, paramList[i])
+		if child == nil || child.Route.Path != "/"+part {
+			t.Errorf("Path: %q got, want Path: '/%q'", child.Route.Path, part)
 		}
 		child.Route.Handler(nil, nil)
 		if word != "handler1" {
