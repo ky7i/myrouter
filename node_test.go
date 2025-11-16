@@ -46,3 +46,36 @@ func TestMatchChildMatched(t *testing.T) {
 		}
 	}
 }
+
+func TestSearch(t *testing.T) {
+	routes := [][]&Routes{
+		{
+			{Path: "/test1/test2", Handler: handler1},
+		}, {
+			{Path:}
+		}
+	}
+
+	paramList := []string{
+		"/test1/test2",
+
+	}
+
+	for i := 0; i < len(routesList); i++ {
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
