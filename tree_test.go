@@ -32,6 +32,13 @@ func TestAdd(t *testing.T) {
 	}
 }
 
-func TestGet(t *testing.T) {
-
-}
+// func TestGet(t *testing.T) {
+// 	word := ""
+// 	handler1 := func(_ http.ResponseWriter, _ *http.Request) {
+// 		word = "handler1"
+// 	}
+//
+// 	tree := &Tree{}
+//
+// 	tree.
+// }
