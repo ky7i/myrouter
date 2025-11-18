@@ -10,9 +10,9 @@ func TestAdd(t *testing.T) {
 	handler1 := func(_ http.ResponseWriter, _ *http.Request) {
 		word = "handler1"
 	}
-	handler2 := func(_ http.ResponseWriter, _ *http.Request) {
-		word = "handler2"
-	}
+	// handler2 := func(_ http.ResponseWriter, _ *http.Request) {
+	// 	word = "handler2"
+	// }
 
 	tree := &Tree{}
 
@@ -26,6 +26,9 @@ func TestAdd(t *testing.T) {
 	node.Handler(nil, nil)
 	if word != "handler1" {
 		t.Errorf("Add handler is different one.")
+	}
+	if node.Path != "/test" {
+		t.Errorf("Add Path is %q, want '/test'", node.Path)
 	}
 }
 

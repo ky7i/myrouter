@@ -7,21 +7,22 @@ import (
 )
 
 type Tree struct {
-	route *Node
+	root *Node
 }
 
 func (t *Tree) add(path string, handler func(http.ResponseWriter, *http.Request)) {
 	// init route
-	if t.route == nil {
-		t.route = &Node{}
+	if t.root == nil {
+		t.root = &Node{}
 	}
 
 	parts := strings.Split(path, "/")[1:]
-	n := t.route
+	n := t.root
 	for _, part := range parts {
 		child := n.MatchChild(part)
 		if child == nil {
 			child = &Node{
+				Path:    path,
 				Part:    part,
 				Handler: handler,
 				IsWild:  part[0] == ':' || part[0] == '*' || part[0] == '{',
@@ -37,7 +38,7 @@ func (t *Tree) add(path string, handler func(http.ResponseWriter, *http.Request)
 // get gets Node matched with path
 func (t *Tree) get(path string) *Node {
 	parts := strings.Split(path, "/")[1:]
-	n := t.route
+	n := t.root
 	for _, part := range parts {
 		child := n.MatchChild(part)
 		if child == nil {

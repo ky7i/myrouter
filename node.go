@@ -10,6 +10,7 @@ import (
 // }
 
 type Node struct {
+	Path     string           `json:"path"`
 	Part     string           `json:"part"`
 	Children []*Node          `json:"children`
 	IsWild   bool             `json:"isWild`
