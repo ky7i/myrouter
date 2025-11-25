@@ -17,12 +17,12 @@ func TestInsert(t *testing.T) {
 	fakeHandler := func(_ http.ResponseWriter, _ *http.Request) {}
 
 	r := New()
-	r.insert("GET", "/api/users", fakeHandler)
-	r.insert("GET", "/api/sample", fakeHandler)
+	r.insert("GET", "/api", fakeHandler)
+	r.insert("GET", "/users", fakeHandler)
 
 	methodGETLen := len(r.trees[0].root.Children)
 
 	if methodGETLen != 2 {
-		t.Errorf("%q GET methods were registerd, want %q.", methodGETLen, 2)
+		t.Errorf("%d GET methods were registerd, want %d.", methodGETLen, 2)
 	}
 }

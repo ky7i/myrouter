@@ -10,7 +10,19 @@ type Router struct {
 
 func New() *Router {
 	return &Router{
-		trees: make([]*Tree, 10),
+		// TODO: write smarter
+		trees: []*Tree{
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+		},
 	}
 }
 
