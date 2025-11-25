@@ -13,15 +13,27 @@ func catchPanic(testFunc func()) (recv interface{}) {
 }
 
 func TestValidatePath(t *testing.T) {
-	paths := []string{
+	correctPaths := []string{
 		"/users",
 		"/a",
 		"/",
 		"//",
 	}
 
-	for _, path := range paths {
-		catchPanic(func() { validatePath(path) })
+	for _, path := range correctPaths {
+		if err := catchPanic(func() { validatePath(path) }); err != nil {
+			t.Errorf("")
+		}
+	}
+
+	incorrectPaths := []string{
+		"a",
+	}
+
+	for _, path := range incorrectPaths {
+		if err := catchPanic(func() { validatePath(path) }); err == nil {
+			t.Errorf("This method didn't call a panic.")
+		}
 	}
 
 }
