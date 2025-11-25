@@ -35,5 +35,4 @@ func TestValidatePath(t *testing.T) {
 			t.Errorf("This method didn't call a panic.")
 		}
 	}
-
 }

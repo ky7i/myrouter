@@ -49,6 +49,23 @@ func (r *Router) insert(method string, path string, handler func(http.ResponseWr
 	}
 }
 
-func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+// TODO: write more pattern, detail.
+func getMethodIndexOf(method string) int {
+	switch method {
+	case "GET":
+		return 0
+	case "POST":
+		return 1
+	}
+	return -1
+}
 
+func (r *Router) get(method string, path string) *Node {
+
+}
+
+func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	path := req.URL
+	method := req.Method
+	methodIndex := getMethodIndexOf(method)
 }
