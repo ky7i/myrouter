@@ -26,3 +26,16 @@ func TestInsert(t *testing.T) {
 		t.Errorf("%d GET methods were registerd, want %d.", methodGETLen, 2)
 	}
 }
+
+func TestGetMethodIndexOf(t *testing.T) {
+	methods := []string{"GET", "POST", "INVALID"}
+	// TODO: rename, there are similer variable names.
+	methodIndexes := []int{0, 1, -1}
+
+	for i := 0; i < len(methods); i++ {
+		methodIndex := getMethodIndexOf(methods[i])
+		if methodIndex != methodIndexes[i] {
+			t.Errorf("Correct index of %q method is %d, set %d", methods[i], methodIndexes[i], methodIndex)
+		}
+	}
+}
