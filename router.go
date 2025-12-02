@@ -60,12 +60,10 @@ func getMethodIndexOf(method string) int {
 	return -1
 }
 
-// func (r *Router) get(method string, path string) *Node {
-//
-// }
-//
-// func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
-// 	path := req.URL
-// 	method := req.Method
-// 	methodIndex := getMethodIndexOf(method)
-// }
+func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	path := req.URL.Path
+	method := req.Method
+	methodIndex := getMethodIndexOf(method)
+	node := r.trees[methodIndex].get(path)
+	node.Handler(w, req)
+}
