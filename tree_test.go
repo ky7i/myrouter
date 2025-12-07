@@ -2,34 +2,51 @@ package myrouter
 
 import (
 	"net/http"
+	"strings"
 	"testing"
 )
 
+var fakeHandlerValue string
+
+func fakeHandler(str string) (h http.HandlerFunc) {
+	return func(http.ResponseWriter, *http.Request) {
+		fakeHandlerValue = str
+	}
+}
+
 func TestAdd(t *testing.T) {
-	word := ""
-	handler1 := func(_ http.ResponseWriter, _ *http.Request) {
-		word = "handler1"
-	}
-	// handler2 := func(_ http.ResponseWriter, _ *http.Request) {
-	// 	word = "handler2"
-	// }
+	tree := &Tree{root: &Node{}}
 
-	tree := &Tree{}
-
-	tree.add("/test", handler1)
-
-	node := tree.get("/test")
-	// TODO: how to check path
-	// if node.path != "/test" {
-	// 	t.Errorf("Add path was %q, want '/test'", node.path)
-	// }
-	node.Handler(nil, nil)
-	if word != "handler1" {
-		t.Errorf("Add handler is different one.")
+	correctPaths := []string{
+		"/test",
+		// "/test/",
+		"/apis/users/userId",
 	}
-	if node.Path != "/test" {
-		t.Errorf("Add Path is %q, want '/test'", node.Path)
+
+	for _, path := range correctPaths {
+		tree.add(path, fakeHandler(path))
 	}
+
+	for _, path := range correctPaths {
+		node := tree.get(path)
+		lastChild := path[(strings.LastIndexAny(path, "/") + 1):]
+
+		if node.Part != lastChild {
+			t.Errorf("Deepest node was %q, want to be %q", node.Part, lastChild)
+		}
+
+		node.Handler(nil, nil)
+		if fakeHandlerValue != path {
+			t.Errorf("A set Handler was wrong, got %q, want %q", fakeHandlerValue, path)
+		}
+
+	}
+
+	// 	invalidPaths := []string{
+	// 		"",
+	// 		"noSlash",
+	// 		"/apis//multipleSlash",
+	// 	}
 }
 
 // func TestGet(t *testing.T) {

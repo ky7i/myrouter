@@ -6,6 +6,8 @@ import (
 
 type Router struct {
 	trees []*Tree
+
+	notFound http.HandlerFunc
 }
 
 func New() *Router {
@@ -64,6 +66,7 @@ func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	path := req.URL.Path
 	method := req.Method
 	methodIndex := getMethodIndexOf(method)
+
 	node := r.trees[methodIndex].get(path)
 	node.Handler(w, req)
 }

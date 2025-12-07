@@ -40,11 +40,9 @@ func (t *Tree) get(path string) *Node {
 	parts := strings.Split(path, "/")[1:]
 	n := t.root
 	for _, part := range parts {
-		child := n.MatchChild(part)
-		if child == nil {
-			return &Node{}
+		if n = n.MatchChild(part); n == nil {
+			return nil
 		}
-		n = child
 	}
 
 	return n
