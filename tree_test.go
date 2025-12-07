@@ -31,7 +31,7 @@ func TestAdd(t *testing.T) {
 		lastChild := path[(strings.LastIndex(path, "/") + 1):]
 
 		if node.Part != lastChild {
-			t.Errorf("Deepest node was %q, want to be %q", node.Part, lastChild)
+			t.Errorf("A deepest node was %q, want to be %q", node.Part, lastChild)
 		}
 
 		node.Handler(nil, nil)
@@ -43,8 +43,15 @@ func TestAdd(t *testing.T) {
 	// 	invalidPaths := []string{
 	// 		"",
 	// 		"noSlash",
-	//    "/trailingSlash/"
+	// 		"/trailingSlash/",
 	// 		"/apis//multipleSlash",
+	// 		"/combination//",
+	// 	}
+	//
+	// 	for _, path := range invalidPaths {
+	// 		if err := catchPanic(func() { tree.add(path, fakeHandler(path)) }); err == nil {
+	// 			t.Errorf("Panic didn't be thrown.")
+	// 		}
 	// 	}
 }
 

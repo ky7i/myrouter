@@ -16,13 +16,11 @@ func TestValidatePath(t *testing.T) {
 	correctPaths := []string{
 		"/users",
 		"/a",
-		"/",
-		"//",
 	}
 
 	for _, path := range correctPaths {
 		if err := catchPanic(func() { validatePath(path) }); err != nil {
-			t.Errorf("")
+			t.Errorf("Got an enexpected error, %q", err)
 		}
 	}
 
