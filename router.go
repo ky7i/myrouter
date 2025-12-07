@@ -5,6 +5,8 @@ import (
 )
 
 type Router struct {
+	// separate trees by HTTP methods.
+	// ex) trees[0] is Tree of GET method.
 	trees [10]*Tree
 
 	NotFound http.HandlerFunc
