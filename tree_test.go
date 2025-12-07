@@ -19,7 +19,6 @@ func TestAdd(t *testing.T) {
 
 	correctPaths := []string{
 		"/test",
-		// "/test/",
 		"/apis/users/userId",
 	}
 
@@ -29,7 +28,7 @@ func TestAdd(t *testing.T) {
 
 	for _, path := range correctPaths {
 		node := tree.get(path)
-		lastChild := path[(strings.LastIndexAny(path, "/") + 1):]
+		lastChild := path[(strings.LastIndex(path, "/") + 1):]
 
 		if node.Part != lastChild {
 			t.Errorf("Deepest node was %q, want to be %q", node.Part, lastChild)
@@ -39,12 +38,12 @@ func TestAdd(t *testing.T) {
 		if fakeHandlerValue != path {
 			t.Errorf("A set Handler was wrong, got %q, want %q", fakeHandlerValue, path)
 		}
-
 	}
 
 	// 	invalidPaths := []string{
 	// 		"",
 	// 		"noSlash",
+	//    "/trailingSlash/"
 	// 		"/apis//multipleSlash",
 	// 	}
 }

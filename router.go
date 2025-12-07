@@ -5,27 +5,17 @@ import (
 )
 
 type Router struct {
-	trees []*Tree
+	trees [10]*Tree
 
-	notFound http.HandlerFunc
+	NotFound http.HandlerFunc
 }
 
 func New() *Router {
-	return &Router{
-		// TODO: write smarter
-		trees: []*Tree{
-			{},
-			{},
-			{},
-			{},
-			{},
-			{},
-			{},
-			{},
-			{},
-			{},
-		},
+	r := &Router{trees: [10]*Tree{}}
+	for i := range r.trees {
+		r.trees[i] = &Tree{}
 	}
+	return r
 }
 
 func (r *Router) GET(path string, handler func(http.ResponseWriter, *http.Request)) {
