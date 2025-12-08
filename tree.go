@@ -1,7 +1,6 @@
 package myrouter
 
 import (
-	"log"
 	"net/http"
 	"strings"
 )
@@ -11,6 +10,13 @@ type Tree struct {
 }
 
 func (t *Tree) add(path string, handler func(http.ResponseWriter, *http.Request)) {
+	if path == "" {
+		panic("Registering path must not be empty.")
+	}
+	if string(path[0]) != "/" {
+		panic("Path must have the prefix '/'.")
+	}
+
 	// init route
 	if t.root == nil {
 		t.root = &Node{}
@@ -19,6 +25,9 @@ func (t *Tree) add(path string, handler func(http.ResponseWriter, *http.Request)
 	parts := strings.Split(path, "/")[1:]
 	n := t.root
 	for _, part := range parts {
+		if part == "" {
+			panic("An empty segment or a trailing slash is included.")
+		}
 		child := n.MatchChild(part)
 		if child == nil {
 			child = &Node{
@@ -28,7 +37,6 @@ func (t *Tree) add(path string, handler func(http.ResponseWriter, *http.Request)
 				IsWild:  part[0] == ':' || part[0] == '*' || part[0] == '{',
 			}
 			n.Children = append(n.Children, child)
-			log.Printf("node (path: %q) is successfuly add.", path)
 		}
 		n = child
 	}

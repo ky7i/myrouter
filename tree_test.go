@@ -40,19 +40,19 @@ func TestAdd(t *testing.T) {
 		}
 	}
 
-	// 	invalidPaths := []string{
-	// 		"",
-	// 		"noSlash",
-	// 		"/trailingSlash/",
-	// 		"/apis//multipleSlash",
-	// 		"/combination//",
-	// 	}
-	//
-	// 	for _, path := range invalidPaths {
-	// 		if err := catchPanic(func() { tree.add(path, fakeHandler(path)) }); err == nil {
-	// 			t.Errorf("Panic didn't be thrown.")
-	// 		}
-	// 	}
+	invalidPaths := []string{
+		"",
+		"noSlash",
+		"/trailingSlash/",
+		"/apis//multipleSlash",
+		"/combination//",
+	}
+
+	for _, path := range invalidPaths {
+		if err := catchPanic(func() { tree.add(path, fakeHandler(path)) }); err == nil {
+			t.Errorf("Panic didn't be thrown.")
+		}
+	}
 }
 
 // func TestGet(t *testing.T) {
@@ -63,5 +63,4 @@ func TestAdd(t *testing.T) {
 //
 // 	tree := &Tree{}
 //
-// 	tree.
 // }
