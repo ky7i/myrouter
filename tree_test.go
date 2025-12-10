@@ -41,8 +41,6 @@ func TestAdd(t *testing.T) {
 	}
 
 	invalidPaths := []string{
-		"",
-		"noSlash",
 		"/trailingSlash/",
 		"/apis//multipleSlash",
 		"/combination//",

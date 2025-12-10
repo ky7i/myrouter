@@ -9,14 +9,7 @@ type Tree struct {
 	root *Node
 }
 
-func (t *Tree) add(path string, handler func(http.ResponseWriter, *http.Request)) {
-	if path == "" {
-		panic("Registering path must not be empty.")
-	}
-	if string(path[0]) != "/" {
-		panic("Path must have the prefix '/'.")
-	}
-
+func (t *Tree) add(path string, handler http.HandlerFunc) {
 	// init route
 	if t.root == nil {
 		t.root = &Node{}

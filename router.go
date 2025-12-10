@@ -17,6 +17,7 @@ func New() *Router {
 	for i := range r.trees {
 		r.trees[i] = &Tree{}
 	}
+	r.NotFound = http.NotFound
 	return r
 }
 
@@ -32,8 +33,12 @@ func (r *Router) DELETE(path string, handler func(http.ResponseWriter, *http.Req
 	r.insert("DELETE", path, handler)
 }
 
-func (r *Router) insert(method string, path string, handler func(http.ResponseWriter, *http.Request)) {
-	validatePath(path)
+func (r *Router) insert(method string, path string, handler http.HandlerFunc) {
+	if path == "" {
+		panic("Registering path must not be empty.")
+	} else if path[0] != '/' {
+		panic("Path must have the prefix '/'.")
+	}
 
 	switch method {
 	case "GET":
@@ -59,6 +64,8 @@ func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	method := req.Method
 	methodIndex := getMethodIndexOf(method)
 
-	node := r.trees[methodIndex].get(path)
-	node.Handler(w, req)
+	if node := r.trees[methodIndex].get(path); node != nil {
+		node.Handler(w, req)
+	}
+	r.NotFound(w, req)
 }
