@@ -23,7 +23,7 @@ func (t *Tree) add(path string, handler http.HandlerFunc) {
 	n := t.root
 	for _, part := range parts {
 		if part == "" {
-			panic("An empty segment or a trailing slash is included.")
+			panic("An empty segment is included in this path.")
 		}
 		child := n.MatchChild(part)
 		if child == nil {
@@ -56,6 +56,9 @@ func (t *Tree) get(path string) *Node {
 func splitPath(path string) []string {
 	parts := strings.Split(path, "/")[1:]
 	lastIndex := len(parts) - 1
+
+	// remove a space after trailing slash.
+	// ex) /test/ => " " + "test" + " "
 	if parts[lastIndex] == "" {
 		parts = parts[:lastIndex-1]
 	}
