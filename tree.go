@@ -12,10 +12,14 @@ type Tree struct {
 func (t *Tree) add(path string, handler http.HandlerFunc) {
 	// init route
 	if t.root == nil {
-		t.root = &Node{}
+		t.root = &Node{
+			Path:    "",
+			Part:    "",
+			Handler: nil,
+		}
 	}
 
-	parts := strings.Split(path, "/")[1:]
+	parts := splitPath(path)
 	n := t.root
 	for _, part := range parts {
 		if part == "" {
@@ -38,7 +42,7 @@ func (t *Tree) add(path string, handler http.HandlerFunc) {
 
 // get gets Node matched with path
 func (t *Tree) get(path string) *Node {
-	parts := strings.Split(path, "/")[1:]
+	parts := splitPath(path)
 	n := t.root
 	for _, part := range parts {
 		if n = n.MatchChild(part); n == nil {
@@ -47,4 +51,13 @@ func (t *Tree) get(path string) *Node {
 	}
 
 	return n
+}
+
+func splitPath(path string) []string {
+	parts := strings.Split(path, "/")[1:]
+	lastIndex := len(parts) - 1
+	if parts[lastIndex] == "" {
+		parts = parts[:lastIndex-1]
+	}
+	return parts
 }

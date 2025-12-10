@@ -53,6 +53,29 @@ func TestAdd(t *testing.T) {
 	}
 }
 
+func TestSplitPath(t *testing.T) {
+	paths := []string{
+		"/test",
+		"/user/userId",
+		"//multitpeSlash",
+		"/trailingSlash/",
+	}
+
+	partsList := [][]string{
+		{"test"},
+		{"user", "userId"},
+		{"", "multipleSlash"},
+		{"trailingSlash"},
+	}
+
+	for i := range paths {
+		parts := splitPath(paths[i])
+		if parts != partsList[i] {
+
+		}
+	}
+}
+
 // func TestGet(t *testing.T) {
 // 	word := ""
 // 	handler1 := func(_ http.ResponseWriter, _ *http.Request) {
