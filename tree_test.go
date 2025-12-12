@@ -64,6 +64,7 @@ func TestSplitPath(t *testing.T) {
 		"/user/userId",
 		"//multipleSlash",
 		"/trailingSlash/",
+		"/",
 	}
 
 	partsList := [][]string{
@@ -71,6 +72,7 @@ func TestSplitPath(t *testing.T) {
 		{"user", "userId"},
 		{"", "multipleSlash"},
 		{"trailingSlash"},
+		{},
 	}
 
 	for i := range paths {
@@ -83,7 +85,7 @@ func TestSplitPath(t *testing.T) {
 
 // test if registerd nodes are rollbacked in panic.
 // => not in Golang
-// when panic, main Go rutine finished and need not rollback.
+// when panic, main gorutine finishes and rollback is unnecessary.
 // func TestPanicRollbackInAdd(t *testing.T) {
 // 	tree := &Tree{}
 // 	catchPanic(func() { tree.add("/invalidPath//", func(_ http.ResponseWriter, _ *http.Request) {}) })

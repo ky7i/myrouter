@@ -1,6 +1,7 @@
 package myrouter
 
 import (
+	"log"
 	"net/http"
 )
 
@@ -62,10 +63,12 @@ func getMethodIndexOf(method string) int {
 func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	path := req.URL.Path
 	method := req.Method
+	log.Printf("method: %q, path: %q\r\n", method, path)
 	methodIndex := getMethodIndexOf(method)
 
 	if node := r.trees[methodIndex].get(path); node != nil {
 		node.Handler(w, req)
+		return
 	}
 	r.NotFound(w, req)
 }

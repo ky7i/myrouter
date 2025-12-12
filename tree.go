@@ -50,6 +50,11 @@ func (t *Tree) get(path string) *Node {
 		}
 	}
 
+	// ex) path is "/" and this one is not registered.
+	if n.Handler == nil {
+		return nil
+	}
+
 	return n
 }
 
@@ -58,8 +63,8 @@ func splitPath(path string) []string {
 	lastIndex := len(parts) - 1
 
 	// remove an empty string after trailing slash.
-	// ex) strings.Split("/test/","/") => "" + "test" + ""
-	//     splitPath("/test/")         => "" + "test"
+	// ex) strings.Split("/test/","/") => ["","test",""]
+	//     splitPath("/test/")         => ["test"]
 	if parts[lastIndex] == "" {
 		parts = parts[:lastIndex]
 	}
