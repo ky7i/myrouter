@@ -5,6 +5,8 @@ import (
 	"testing"
 )
 
+func dummyHandler(_ http.ResponseWriter, _ *http.Request) {}
+
 func TestNew(t *testing.T) {
 	r := New()
 	length := len(r.trees)
@@ -13,17 +15,56 @@ func TestNew(t *testing.T) {
 	}
 }
 
-func TestInsert(t *testing.T) {
-	fakeHandler := func(_ http.ResponseWriter, _ *http.Request) {}
+func TestHTTPMethods(t *testing.T) {
+	methods := []string{
+		"GET",
+		"POST",
+		"DELETE",
+	}
 
 	r := New()
-	r.insert("GET", "/api", fakeHandler)
-	r.insert("GET", "/users", fakeHandler)
+	for _, method := range methods {
+		r.insert(method, "/"+method, dummyHandler)
+	}
 
-	methodGETLen := len(r.trees[0].root.Children)
+	methodIndexs := []int{
+		getMethodIndexOf("GET"),
+		getMethodIndexOf("POST"),
+	}
 
-	if methodGETLen != 2 {
-		t.Errorf("%d GET methods were registerd, want %d.", methodGETLen, 2)
+	for _, index := range methodIndexs {
+		if len(r.trees[index].root.Children) != 1 {
+			t.Errorf("A given path didn't be registered at a correct Method tree.")
+		}
+	}
+}
+
+func TestInsert(t *testing.T) {
+	dummyHandler := func(_ http.ResponseWriter, _ *http.Request) {}
+
+	r := New()
+
+	invalidPaths := []string{"", "noSlash"}
+	for _, path := range invalidPaths {
+		if err := catchPanic(func() { r.insert("GET", path, dummyHandler) }); err == nil {
+			t.Errorf("Didn't throw a panic to this invalid path %q.", path)
+		}
+	}
+
+	r = New()
+	paths := []string{
+		"/api",
+		"/users",
+	}
+	for _, path := range paths {
+		r.insert("GET", path, dummyHandler)
+	}
+
+	insertCount := len(paths)
+	methodGETLen := len(r.trees[0].root.Children) // trees[0] is the GET method tree
+
+	if methodGETLen != insertCount {
+		t.Errorf("%d GET methods were registerd, want %d.", methodGETLen, insertCount)
 	}
 }
 

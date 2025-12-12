@@ -76,7 +76,7 @@ func TestSplitPath(t *testing.T) {
 	}
 }
 
-// test which registerd nodes are rollbacked in panic.
+// test if registerd nodes are rollbacked in panic.
 // => not in Golang
 // when panic, main Go rutine finished and need not rollback.
 // func TestPanicRollbackInAdd(t *testing.T) {
