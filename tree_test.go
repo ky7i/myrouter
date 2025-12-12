@@ -2,6 +2,7 @@ package myrouter
 
 import (
 	"net/http"
+	"slices"
 	"strings"
 	"testing"
 )
@@ -41,7 +42,6 @@ func TestAdd(t *testing.T) {
 	}
 
 	invalidPaths := []string{
-		"/trailingSlash/",
 		"/apis//multipleSlash",
 		"/combination//",
 	}
@@ -57,7 +57,7 @@ func TestSplitPath(t *testing.T) {
 	paths := []string{
 		"/test",
 		"/user/userId",
-		"//multitpeSlash",
+		"//multipleSlash",
 		"/trailingSlash/",
 	}
 
@@ -69,19 +69,22 @@ func TestSplitPath(t *testing.T) {
 	}
 
 	for i := range paths {
-		parts := splitPath(paths[i])
-		if parts != partsList[i] {
-
+		path := splitPath(paths[i])
+		if !slices.Equal(path, partsList[i]) {
+			t.Errorf("A splited path was %q, want %q.", path, partsList[i])
 		}
 	}
 }
 
-// func TestGet(t *testing.T) {
-// 	word := ""
-// 	handler1 := func(_ http.ResponseWriter, _ *http.Request) {
-// 		word = "handler1"
-// 	}
-//
+// test which registerd nodes are rollbacked in panic.
+// => not in Golang
+// when panic, main Go rutine finished and need not rollback.
+// func TestPanicRollbackInAdd(t *testing.T) {
 // 	tree := &Tree{}
+// 	catchPanic(func() { tree.add("/invalidPath//", func(_ http.ResponseWriter, _ *http.Request) {}) })
 //
+// 	node := tree.get("/invalidPath")
+// 	if node != nil {
+// 		t.Errorf("Did not be rollbacked.")
+// 	}
 // }

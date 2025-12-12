@@ -39,7 +39,3 @@ func TestGetMethodIndexOf(t *testing.T) {
 		}
 	}
 }
-
-// func TestServeHTTP(t *testing.T) {
-//
-// }
