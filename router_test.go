@@ -16,16 +16,9 @@ func TestNew(t *testing.T) {
 }
 
 func TestHTTPMethods(t *testing.T) {
-	methods := []string{
-		"GET",
-		"POST",
-		"DELETE",
-	}
-
 	r := New()
-	for _, method := range methods {
-		r.insert(method, "/"+method, dummyHandler)
-	}
+	r.GET("/get", dummyHandler)
+	r.POST("/post", dummyHandler)
 
 	methodIndexs := []int{
 		getMethodIndexOf("GET"),

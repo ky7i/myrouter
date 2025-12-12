@@ -29,9 +29,9 @@ func (r *Router) POST(path string, handler func(http.ResponseWriter, *http.Reque
 	r.insert("POST", path, handler)
 }
 
-func (r *Router) DELETE(path string, handler func(http.ResponseWriter, *http.Request)) {
-	r.insert("DELETE", path, handler)
-}
+// func (r *Router) DELETE(path string, handler func(http.ResponseWriter, *http.Request)) {
+// 	r.insert("DELETE", path, handler)
+// }
 
 func (r *Router) insert(method string, path string, handler http.HandlerFunc) {
 	if path == "" {

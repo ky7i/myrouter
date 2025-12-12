@@ -14,8 +14,9 @@ type Node struct {
 
 func (n *Node) MatchChild(part string) *Node {
 	for i := range n.Children {
-		if n.Children[i].Part == part || n.Children[i].IsWild {
-			return n.Children[i]
+		child := n.Children[i]
+		if child.Part == part || child.IsWild {
+			return child
 		}
 	}
 	return nil

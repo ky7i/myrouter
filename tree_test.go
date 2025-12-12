@@ -41,6 +41,11 @@ func TestAdd(t *testing.T) {
 		}
 	}
 
+	// check if retrun nil when mismatch
+	if node := tree.get("/mismatchPath"); node != nil {
+		t.Errorf("want nil, got %q.", node.Part)
+	}
+
 	invalidPaths := []string{
 		"/apis//multipleSlash",
 		"/combination//",
